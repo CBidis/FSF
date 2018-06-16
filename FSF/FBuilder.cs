@@ -24,7 +24,7 @@ namespace FSF
         }
 
         /// <summary>
-        /// Get IEnumerable File Lines
+        /// Get IEnumerable File Lines (IEnumerable<string>)
         /// </summary>
         /// <param name="fileRecords">File Records of File to build</param>
         /// <param name="globalFieldBuilder">The Function that will be applied to all field values</param>
