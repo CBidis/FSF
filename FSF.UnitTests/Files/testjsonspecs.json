@@ -1,0 +1,60 @@
+﻿{
+  "Header": 
+    [
+      {
+        "Name": "HeaderIdentifier",
+        "Length": 1,
+        "Position": 1,
+        "DefaultValue": "1"
+      },
+      {
+        "Name": "FileDate",
+        "Length": 8,
+        "Position": 2,
+        "DefaultValue": null
+      },
+      {
+        "Name": "Filler",
+        "Length": 10,
+        "Position": 35,
+        "DefaultValue": " "
+      }
+    ]
+  ,
+  "Details": 
+    [
+      {
+        "Name": "DetailIdentifier",
+        "Length": 1,
+        "Position": 1,
+        "DefaultValue": "2"
+      },
+      {
+        "Name": "AccountNumber",
+        "Length": 19,
+        "Position": 2,
+        "DefaultValue": null
+      },
+      {
+        "Name": "ExpirationDate",
+        "Length": 4,
+        "Position": 21,
+        "DefaultValue": null
+      }
+    ]
+  ,
+  "Trailer": [
+    {
+      "Name": "TrailerIdentifier",
+      "Length": 1,
+      "Position": 1,
+      "DefaultValue": "T"
+    },
+    {
+      "Name": "RecordCount",
+      "Length": 9,
+      "Position": 2,
+      "DefaultValue": null
+    }
+]
+}

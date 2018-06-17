@@ -30,6 +30,9 @@ namespace FSF.Helpers
                     throw new ArgumentException($"Deserialized object does not contain any of the valid Childrens (Header, Details, Trailer) --> {item.Name} not supported");
             }
 
+            if((records == null))
+                throw new ArgumentException($"Json Object {jsonObject} does not contain Records fields");
+
             return (header, trailer, records);
         }
     }

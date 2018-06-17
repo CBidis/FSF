@@ -36,7 +36,7 @@ namespace FSF
             var fileLines = new List<string>();
 
             if (fileRecords.Header != null)
-                BuildLineFromFields(fileRecords.Header, globalFieldBuilder);
+                fileLines.Add(BuildLineFromFields(fileRecords.Header, globalFieldBuilder));
 
             foreach (List<Field> record in fileRecords.Records.Values)
             {
@@ -44,7 +44,7 @@ namespace FSF
             }
 
             if (fileRecords.Trailer != null)
-                BuildLineFromFields(fileRecords.Trailer, globalFieldBuilder);
+                fileLines.Add(BuildLineFromFields(fileRecords.Trailer, globalFieldBuilder));
 
             return fileLines;
         }
