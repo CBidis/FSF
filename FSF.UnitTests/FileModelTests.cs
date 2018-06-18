@@ -1,4 +1,6 @@
-﻿using FSF.Models;
+﻿using FSF.Helpers;
+using FSF.Models;
+using FSF.UnitTests.Models;
 using System;
 using Xunit;
 
@@ -19,5 +21,12 @@ namespace FSF.UnitTests
 
         [Fact]
         public void TestFailModelParse() => Assert.Throws<ArgumentException>(() => new FileModel("{}"));
+
+        [Fact]
+        public static void GetFileModelFromType()
+        {
+            FileModel fileModel = Utils.GetFileModelFromType(typeof(TestFileModel));
+            Assert.True(fileModel != null);
+        }
     }
 }
