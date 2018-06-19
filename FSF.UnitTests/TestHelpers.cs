@@ -1,4 +1,5 @@
 ﻿using FSF.Models;
+using FSF.UnitTests.Models;
 using System.Collections.Generic;
 using System.IO;
 
@@ -6,6 +7,15 @@ namespace FSF.UnitTests
 {
     public static class TestHelpers
     {
+        public static List<TestFileModel> EnumerableObjects { get; private set; } = new List<TestFileModel>
+            {
+                new TestFileModel { HeaderIdentifier = "1", FileDate = "20161212", Filler = " ".PadRight(35, ' ') },
+                new TestFileModel { DetailIdentifier = "2", AccountNumber = "5351178243921213789", ExpirationDate = "1212"},
+                new TestFileModel { DetailIdentifier = "2", AccountNumber = "4346178243921213789", ExpirationDate = "1220"},
+                new TestFileModel { DetailIdentifier = "2", AccountNumber = "6453218243921213743", ExpirationDate = "1230"},
+                new TestFileModel { TrailerIdentifier = "9", RecordCount = "000000003"}
+            };
+
         public static string SpecsTXTFile { get; private set; } = File.ReadAllText("./Files/testjsonspecs.json");
 
         public static string[] AllLinesOfTestFile { get; private set; } = File.ReadAllLines("./Files/testjsonfile.txt");

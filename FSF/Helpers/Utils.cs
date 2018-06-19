@@ -7,9 +7,9 @@ using System.Reflection;
 
 namespace FSF.Helpers
 {
-    public static class Utils
+    internal static class Utils
     {
-        public static FileModel GetFileModelFromType(Type type)
+        internal static FileModel GetFileModelFromType(Type type)
         {
             IEnumerable<PropertyInfo> propertiesOfDataField = type.GetProperties().Where(
                 prop => prop.GetCustomAttributes().Any(attr => attr.GetType() == typeof(DataFieldAttribute)));
