@@ -1,14 +1,13 @@
 ﻿using FSF.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 
 namespace FSF.Helpers
 {
     internal static class FileUtils
     {
-        internal static string FileModelJSONString(this FileModel fileModel) => JsonConvert.SerializeObject(fileModel);
+        internal static string FileModelJSONString(this FileModel fileModel) => JsonSerializer.Serialize(fileModel);
 
         internal static (List<Field>, List<Field>, List<Field>) ParseJsonModel(string jsonString)
         {
@@ -16,22 +15,36 @@ namespace FSF.Helpers
             List<Field> trailer = null;
             List<Field> records = null;
 
-            var jsonObject = JObject.Parse(jsonString);
+            if ((string.IsNullOrEmpty(jsonString)))
+                throw new ArgumentNullException("json string is empty or null");
 
-            foreach (JProperty item in jsonObject.Children())
+            var jsonDocument = JsonSerializer.Deserialize<JsonElement>(jsonString);
+
+            var hasHeader = jsonDocument.TryGetProperty("Header", out var headerProp);
+            var hasDetails = jsonDocument.TryGetProperty("Details", out var detailsProp);
+            var hasTrailer = jsonDocument.TryGetProperty("Trailer", out var trailerProp);
+
+            if (!hasDetails)
             {
-                if (item.Name == "Header")
-                    header = JsonConvert.DeserializeObject<List<Field>>(item.Value.ToString());
-                else if (item.Name == "Details")
-                    records = JsonConvert.DeserializeObject<List<Field>>(item.Value.ToString());
-                else if (item.Name == "Trailer")
-                    trailer = JsonConvert.DeserializeObject<List<Field>>(item.Value.ToString());
-                else
-                    throw new ArgumentException($"Deserialized object does not contain any of the valid Childrens (Header, Details, Trailer) --> {item.Name} not supported");
+                throw new ArgumentException("Has no records");
             }
 
+            var headerRaw = hasHeader ? headerProp.GetRawText() : string.Empty;
+            var detailsRaw = detailsProp.GetRawText();
+            var trailerRaw = hasTrailer ? trailerProp.GetRawText() : string.Empty;
+
+            if (!string.IsNullOrEmpty(headerRaw))
+                header = JsonSerializer.Deserialize<List<Field>>(headerRaw);
+
+            if (!string.IsNullOrEmpty(detailsRaw))
+                records = JsonSerializer.Deserialize<List<Field>>(detailsRaw);
+
+            if (!string.IsNullOrEmpty(trailerRaw))
+                trailer = JsonSerializer.Deserialize<List<Field>>(trailerRaw);
+
+
             if((records == null))
-                throw new ArgumentException($"Json Object {jsonObject} does not contain Records fields");
+                throw new ArgumentException($"Json Object {jsonDocument} does not contain Records fields");
 
             return (header, trailer, records);
         }
